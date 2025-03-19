@@ -73,7 +73,7 @@ def signup(request):
 SECRET_KEY = 'secret'
 
 REFRESH_TOKEN_EXPIRATION = 90  # 1 minute
-ACCESS_TOKEN_EXPIRATION = 1  # 1 minute
+ACCESS_TOKEN_EXPIRATION = 10  # 1 minute
 
 @csrf_exempt
 def signin(request):
