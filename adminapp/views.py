@@ -292,6 +292,7 @@ def blog(request, id=None):
 
         try:
             blog = BlogPost.objects.get(id=id)
+            print(id)
         except BlogPost.DoesNotExist:
             return JsonResponse({
                 "hasError": True,
@@ -359,6 +360,38 @@ def blog(request, id=None):
         
 @csrf_exempt
 def allblog(request): 
+    if request.method == 'GET':
+        page = int(request.GET.get('page', 1))
+        limit = int(request.GET.get('limit', 5))  
+
+        blog_queryset = BlogPost.objects.filter(status="published")
+        paginator = Paginator(blog_queryset, limit)
+
+        try:
+            blog_page = paginator.page(page)
+        except Exception as e:
+            return JsonResponse({
+                "hasError": True,
+                "errorCode": 1,
+                "message": "Error during pagination",
+                "debugMessage": str(e),
+                "data": []
+            })
+
+        blog_serializer = BlogSerializers(blog_page, many=True)
+
+        return JsonResponse({
+            "hasError": False,
+            "errorCode": 0,
+            "message": "Success",
+            "debugMessage": "",
+            "data": blog_serializer.data,
+            "totalCount": paginator.count,  
+        }, safe=False)
+        
+        
+@csrf_exempt
+def publicblog(request): 
     if request.method == 'GET':
         page = int(request.GET.get('page', 1))
         limit = int(request.GET.get('limit', 5))  

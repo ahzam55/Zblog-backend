@@ -16,6 +16,7 @@ urlpatterns =[
     path('blog/<id>', views.blog, name='blog'),
     path('blog/<int:id>', views.blog, name='blog'),
     path('allblog/', views.allblog, name='allblog'),
+    path('publicblog/', views.publicblog, name='publicblog'),
    
   
 ] 

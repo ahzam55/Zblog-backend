@@ -15,7 +15,7 @@ class CheckAccessTokenMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if request.path in ['/signup/', '/signin/']: 
+        if request.path in ['/signup/', '/signin/', '/publicblog/']: 
             return self.get_response(request)
 
         access_token = request.headers.get('Authorization')
